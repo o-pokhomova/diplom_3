@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.yandex.praktikum.diplom.ui.Browser;
 import ru.yandex.praktikum.diplom.ui.steps.ConstructorSteps;
 
 import java.util.ArrayList;
@@ -26,28 +25,25 @@ public class ConstructorTest extends BaseTest {
     // по булкам, потому что они и так активная вкладка. Поэтому чтобы протестировать
     // булки, надо сначала кликнуть что-то отличное от них. Такую стратегию распространим
     // и на остальные вкладки
-    public ConstructorTest(Browser browser, String preparatoryTabHeader, String mainTabHeader) {
-        super(browser);
+    public ConstructorTest(String preparatoryTabHeader, String mainTabHeader) {
         this.preparatoryTabHeader = preparatoryTabHeader;
         this.mainTabHeader = mainTabHeader;
     }
 
 
-    @Parameterized.Parameters(name = "{0} - {2}")
+    @Parameterized.Parameters(name = "{1}")
     public static Collection<Object[]> testData() {
         List<Object[]> result = new ArrayList<>();
-        for (Browser browser : Browser.values()) {
-            result.add(new Object[]{browser, "Соусы", "Булки"});
-            result.add(new Object[]{browser, "Начинки", "Соусы"});
-            result.add(new Object[]{browser, "Соусы", "Начинки"});
-        }
+        result.add(new Object[]{"Соусы", "Булки"});
+        result.add(new Object[]{"Начинки", "Соусы"});
+        result.add(new Object[]{"Соусы", "Начинки"});
         return result;
     }
 
     @Before
     public final void initTestNameForAllureWithBrowserAndTabName() {
         Allure.getLifecycle().updateTestCase(testResult ->
-                testResult.setName(testResult.getName() + ": " + browser + " - " + mainTabHeader)
+                testResult.setName(testResult.getName() + ": " + mainTabHeader)
         );
     }
 
@@ -60,6 +56,6 @@ public class ConstructorTest extends BaseTest {
 
         constructorSteps.clickTab(mainTabHeader);
 
-        Assert.assertTrue(constructorSteps.checkTabClicked(mainTabHeader));
+        Assert.assertTrue(constructorSteps.isTabActive(mainTabHeader));
     }
 }

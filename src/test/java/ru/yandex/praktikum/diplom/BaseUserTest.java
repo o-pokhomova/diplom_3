@@ -3,7 +3,6 @@ package ru.yandex.praktikum.diplom;
 import com.github.javafaker.Faker;
 import org.junit.Before;
 import ru.yandex.praktikum.diplom.api.steps.UserSteps;
-import ru.yandex.praktikum.diplom.ui.Browser;
 
 public abstract class BaseUserTest extends BaseTest {
     protected final UserSteps userSteps = new UserSteps();
@@ -11,10 +10,6 @@ public abstract class BaseUserTest extends BaseTest {
     protected final String email = faker.internet().emailAddress();
     protected final String password = faker.internet().password();
     protected final String name = faker.name().fullName();
-
-    public BaseUserTest(Browser browser) {
-        super(browser);
-    }
 
     @Before
     public final void printUserDataBeforeTest() {

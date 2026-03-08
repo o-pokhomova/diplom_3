@@ -7,18 +7,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.praktikum.diplom.api.dto.AuthRegisterResponseDto;
-import ru.yandex.praktikum.diplom.ui.Browser;
 import ru.yandex.praktikum.diplom.ui.steps.LoginSteps;
 
 @DisplayName("Логин")
 public class LoginTest extends BaseUserTest {
-    public static final int SECONDS_TO_WAIT_ON_INCORRECT_LOGIN = 2;
     private final LoginSteps loginSteps = new LoginSteps(mainPage, loginPage, registrationPage, forgotPasswordPage);
     private String accessToken;
-
-    public LoginTest(Browser browser) {
-        super(browser);
-    }
 
     @Before
     public void setUp() {
@@ -52,7 +46,6 @@ public class LoginTest extends BaseUserTest {
 
         loginSteps.submitLoginForm(email, "Some bad password");
 
-        loginSteps.waitNSeconds(SECONDS_TO_WAIT_ON_INCORRECT_LOGIN);
         Assert.assertNull(
                 "Токен отсутствует в локальном хранилище браузера",
                 loginSteps.getAccessToken()
@@ -68,7 +61,6 @@ public class LoginTest extends BaseUserTest {
 
         loginSteps.submitLoginForm("Bad login", password);
 
-        loginSteps.waitNSeconds(SECONDS_TO_WAIT_ON_INCORRECT_LOGIN);
         Assert.assertNull(
                 "Токен отсутствует в локальном хранилище браузера",
                 loginSteps.getAccessToken()

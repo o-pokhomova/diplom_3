@@ -1,5 +1,6 @@
 package ru.yandex.praktikum.diplom.ui.steps;
 
+import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
 import ru.yandex.praktikum.diplom.ui.pages.ForgotPasswordPage;
 import ru.yandex.praktikum.diplom.ui.pages.LoginPage;
@@ -14,16 +15,19 @@ public class LoginSteps {
     private final RegistrationPage registrationPage;
     private final ForgotPasswordPage forgotPasswordPage;
 
+    @Step("Перейти на форму логина через кнопку на главной странице")
     public void navigateToLoginFormFromMain() {
         mainPage.clickLogin();
         loginPage.awaitForOpened();
     }
 
+    @Step("Перейти на форму логина через ссылку на личный кабинет")
     public void navigateToLoginFormFromAccount() {
         mainPage.clickAccount();
         loginPage.awaitForOpened();
     }
 
+    @Step("Перейти на форму логина через форму регистрации")
     public void navigateToLoginFormFromRegistration() {
         mainPage.clickAccount();
         loginPage.awaitForOpened();
@@ -33,6 +37,7 @@ public class LoginSteps {
         loginPage.awaitForOpened();
     }
 
+    @Step("Перейти на форму логина через форму восстановления пароля")
     public void navigateToLoginFormFromPasswordRestore() {
         mainPage.clickLogin();
         loginPage.awaitForOpened();
@@ -42,21 +47,20 @@ public class LoginSteps {
         loginPage.awaitForOpened();
     }
 
+    @Step("Заполнить и отправить формку логина")
     public void submitLoginForm(String email, String password) {
         loginPage.fillEmail(email);
         loginPage.fillPassword(password);
         loginPage.clickLogin();
     }
 
+    @Step("Подождать, пока сабмит на форме логина отработает и откроется главная страница")
     public void awaitForLoggedIn() {
         mainPage.awaitForOpened();
     }
 
+    @Step("Получить сохранённый access-token")
     public String getAccessToken() {
         return mainPage.getKeyFromLocalStorage(ACCESS_TOKEN);
-    }
-
-    public void waitNSeconds(int seconds) {
-        loginPage.wainNSeconds(seconds);
     }
 }

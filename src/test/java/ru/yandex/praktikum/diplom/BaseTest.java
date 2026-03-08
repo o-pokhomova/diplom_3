@@ -1,10 +1,6 @@
 package ru.yandex.praktikum.diplom;
 
-import io.qameta.allure.Allure;
 import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.praktikum.diplom.ui.Browser;
@@ -15,10 +11,7 @@ import ru.yandex.praktikum.diplom.ui.pages.MainPage;
 import ru.yandex.praktikum.diplom.ui.pages.RegistrationPage;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collection;
 
-@RunWith(Parameterized.class)
 public abstract class BaseTest {
     protected final Browser browser;
     protected final WebDriver webDriver;
@@ -28,8 +21,14 @@ public abstract class BaseTest {
     protected final RegistrationPage registrationPage;
     protected final ForgotPasswordPage forgotPasswordPage;
 
-    public BaseTest(Browser browser) {
-        this.browser = browser;
+    public BaseTest() {
+        String browserName = System.getProperty("browser");
+        if (browserName == null) {
+            this.browser = Browser.YANDEX;
+        } else {
+            this.browser = Browser.valueOf(browserName.toUpperCase());
+        }
+
         webDriver = BrowserStarter.start(this.browser);
         wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
 
@@ -37,18 +36,6 @@ public abstract class BaseTest {
         loginPage = new LoginPage(webDriver, wait);
         registrationPage = new RegistrationPage(webDriver, wait);
         forgotPasswordPage = new ForgotPasswordPage(webDriver, wait);
-    }
-
-    @Parameterized.Parameters(name = "{0}")
-    public static Collection<Browser> data() {
-        return Arrays.asList(Browser.values());
-    }
-
-    @Before
-    public final void initTestNameForAllureBrowser() {
-        Allure.getLifecycle().updateTestCase(testResult ->
-                testResult.setName(testResult.getName() + ": " + browser)
-        );
     }
 
     @After

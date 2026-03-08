@@ -1,7 +1,6 @@
 package ru.yandex.praktikum.diplom.ui.pages;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -42,10 +41,5 @@ public class BasePage {
         RemoteExecuteMethod executeMethod = new RemoteExecuteMethod((RemoteWebDriver) driver);
         RemoteWebStorage webStorage = new RemoteWebStorage(executeMethod);
         return webStorage.getLocalStorage().getItem("accessToken");
-    }
-
-    @SneakyThrows
-    public void wainNSeconds(int seconds) {
-        Thread.sleep(1000 * seconds);
     }
 }
